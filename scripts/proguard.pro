@@ -1,5 +1,4 @@
--dontobfuscate
--dontshrink
+-keep class *
 
 -keepattributes Signature
 -keepattributes *Annotation*
