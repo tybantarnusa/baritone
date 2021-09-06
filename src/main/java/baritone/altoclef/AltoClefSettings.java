@@ -49,6 +49,8 @@ public class AltoClefSettings {
 
     private boolean _allowShears = true;
 
+    private boolean _allowSwimThroughLava = false;
+
     public void avoidBlockBreak(BlockPos pos) {
         synchronized (breakMutex) {
             _blocksToAvoidBreaking.add(pos);
@@ -126,6 +128,11 @@ public class AltoClefSettings {
             return _allowShears;
         }
     }
+    public boolean canSwimThroughLava() {
+        synchronized (propertiesMutex) {
+            return _allowSwimThroughLava;
+        }
+    }
 
 
     public void setInteractionPaused(boolean paused) {
@@ -138,10 +145,15 @@ public class AltoClefSettings {
             _allowFlowingWaterPass = pass;
         }
     }
-
     public void allowShears(boolean allow) {
         synchronized (propertiesMutex) {
             _allowShears = allow;
+        }
+    }
+
+    public void allowSwimThroughLava(boolean allow) {
+        synchronized (propertiesMutex) {
+            _allowSwimThroughLava = allow;
         }
     }
 

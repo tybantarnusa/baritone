@@ -101,6 +101,10 @@ public interface MovementHelper extends ActionCosts, Helper {
         if (block instanceof BaseFireBlock || block == Blocks.TRIPWIRE || block == Blocks.COBWEB || block == Blocks.END_PORTAL || block == Blocks.COCOA || block instanceof AbstractSkullBlock || block == Blocks.BUBBLE_COLUMN || block instanceof ShulkerBoxBlock || block instanceof SlabBlock || block instanceof TrapDoorBlock || block == Blocks.HONEY_BLOCK || block == Blocks.END_ROD || block == Blocks.POINTED_DRIPSTONE || block == Blocks.AMETHYST_CLUSTER || block == Blocks.SWEET_BERRY_BUSH) {
             return false;
         }
+        if (Baritone.getAltoClefSettings().canSwimThroughLava() && block == Blocks.LAVA) {
+            BlockState up = bsi.get0(x, y + 1, z);
+            return up.getFluidState().isEmpty();
+        }
         if (Baritone.settings().blocksToAvoid.value.contains(block)) {
             return false;
         }
@@ -478,7 +482,13 @@ public interface MovementHelper extends ActionCosts, Helper {
      */
     static boolean isWater(BlockState state) {
         Fluid f = state.getFluidState().getType();
-        return f == Fluids.WATER || f == Fluids.FLOWING_WATER;
+        if (f == Fluids.WATER || f == Fluids.FLOWING_WATER) {
+            return true;
+        }
+        if (f == Fluids.LAVA || f == Fluids.FLOWING_LAVA && Baritone.getAltoClefSettings().canSwimThroughLava()) {
+            return true;
+        }
+        return false;
     }
 
     /**
