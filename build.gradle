@@ -21,6 +21,9 @@ version '1.6.3'
 buildscript {
     repositories {
         maven {
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
             name = 'forge'
             url = 'http://files.minecraftforge.net/maven'
         }
@@ -32,13 +35,9 @@ buildscript {
             url = 'https://www.dogforce-games.com/maven/'
         }
         maven {
-            url = 'https://maven.fabricmc.net/'
-        }
-        maven {
             url = 'https://libraries.minecraft.net/'
         }
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
