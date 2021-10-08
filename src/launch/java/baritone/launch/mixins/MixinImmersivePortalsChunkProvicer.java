@@ -33,7 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 
 @Pseudo
 @Mixin(targets = "com.qouteall.immersive_portals.chunk_loading.MyClientChunkManager", remap = false) //bruh
-public class MixinImmersivePortalsChunkProvicer extends ClientChunkProvider implements IImmersivePortalsClientChunkProvider {
+public class MixinImmersivePortalsChunkProvicer implements IImmersivePortalsClientChunkProvider {
     
     @Shadow(aliases = {"chunkMapNew"})
     @Final
@@ -75,9 +75,5 @@ public class MixinImmersivePortalsChunkProvicer extends ClientChunkProvider impl
     @Override
     public IChunkArray extractReferenceArray() {
         return null;
-    }
-    
-    public MixinImmersivePortalsChunkProvicer(ClientWorld clientWorldIn, int viewDistance) {
-        super(clientWorldIn, viewDistance);
     }
 }
