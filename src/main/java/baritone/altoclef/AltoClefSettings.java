@@ -18,11 +18,14 @@
 package baritone.altoclef;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class AltoClefSettings {
@@ -38,6 +41,8 @@ public class AltoClefSettings {
     private final List<Predicate<BlockPos>> _placeAvoiders = new ArrayList<>();
 
     private final List<Predicate<BlockPos>> _forceCanWalkOn = new ArrayList<>();
+
+    private final List<BiPredicate<BlockState, ItemStack>> _forceUseTool = new ArrayList<>();
 
     private final HashSet<Item> _protectedItems = new HashSet<>();
 
@@ -79,31 +84,29 @@ public class AltoClefSettings {
     }
     public boolean shouldAvoidBreaking(BlockPos pos) {
         synchronized (breakMutex) {
-            if (_blocksToAvoidBreaking.contains(pos)) return true;
-            for (Predicate<BlockPos> pred : _breakAvoiders) {
-                if (pred.test(pos)) return true;
-            }
-            return false;
+            if (_blocksToAvoidBreaking.contains(pos))
+                return true;
+            return (_breakAvoiders.stream().anyMatch(pred -> pred.test(pos)));
         }
     }
     public boolean shouldAvoidPlacingAt(BlockPos pos) {
-        return shouldAvoidPlacingAt(pos.getX(), pos.getY(), pos.getZ());
+        synchronized (placeMutex) {
+            return _placeAvoiders.stream().anyMatch(pred -> pred.test(pos));
+        }
     }
     public boolean shouldAvoidPlacingAt(int x, int y, int z) {
-        synchronized (placeMutex) {
-            for (Predicate<BlockPos> pred : _placeAvoiders) {
-                if (pred.test(new BlockPos(x, y, z))) return true;
-            }
-            return false;
-        }
+        return shouldAvoidPlacingAt(new BlockPos(x, y, z));
     }
 
     public boolean canWalkOnForce(int x, int y, int z) {
         synchronized (propertiesMutex) {
-            for (Predicate<BlockPos> pred : _forceCanWalkOn) {
-                if (pred.test(new BlockPos(x, y, z))) return true;
-            }
-            return false;
+            return _forceCanWalkOn.stream().anyMatch(pred -> pred.test(new BlockPos(x, y, z)));
+        }
+    }
+
+    public boolean shouldForceUseTool(BlockState state, ItemStack tool) {
+        synchronized (propertiesMutex) {
+            return _forceUseTool.stream().anyMatch(pred -> pred.test(state, tool));
         }
     }
 
@@ -123,6 +126,10 @@ public class AltoClefSettings {
             return _allowFlowingWaterPass;
         }
     }
+    /**
+     * @deprecated
+     * Use `shouldForceUseToo` instead.
+     */
     public boolean areShearsAllowed() {
         synchronized (propertiesMutex) {
             return _allowShears;
@@ -134,7 +141,6 @@ public class AltoClefSettings {
         }
     }
 
-
     public void setInteractionPaused(boolean paused) {
         synchronized (propertiesMutex) {
             _pauseInteractions = paused;
@@ -145,6 +151,12 @@ public class AltoClefSettings {
             _allowFlowingWaterPass = pass;
         }
     }
+
+    /**
+     * @deprecated
+     * Use `getForceUseToolPredicates` instead.
+     */
+    @Deprecated
     public void allowShears(boolean allow) {
         synchronized (propertiesMutex) {
             _allowShears = allow;
@@ -168,6 +180,9 @@ public class AltoClefSettings {
     }
     public List<Predicate<BlockPos>> getForceWalkOnPredicates() {
         return _forceCanWalkOn;
+    }
+    public List<BiPredicate<BlockState, ItemStack>> getForceUseToolPredicates() {
+        return _forceUseTool;
     }
 
     public boolean isItemProtected(Item item) {

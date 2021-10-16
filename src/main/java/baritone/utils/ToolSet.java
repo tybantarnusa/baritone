@@ -140,7 +140,7 @@ public class ToolSet {
         return best;
     }
 
-    public static boolean areShearsEffective(Block b) {
+    private static boolean areShearsEffective(Block b) {
         return BlockTags.LEAVES.contains(b) || b == Blocks.COBWEB || b == Blocks.GRASS || b == Blocks.TALL_GRASS || b == Blocks.LILY_PAD || b == Blocks.FERN || b == Blocks.DEAD_BUSH || b ==Blocks.VINE || b == Blocks.TRIPWIRE || BlockTags.WOOL.contains(b);
     }
 
@@ -183,6 +183,10 @@ public class ToolSet {
 
         // Shears are fast against items that don't say they're fast.
         if (Baritone.getAltoClefSettings().areShearsAllowed() && item.getItem() == Items.SHEARS && areShearsEffective(state.getBlock())) {
+            return Double.POSITIVE_INFINITY;
+        }
+        // We specify to force use this tool.
+        if (Baritone.getAltoClefSettings().shouldForceUseTool(state, item)) {
             return Double.POSITIVE_INFINITY;
         }
 
