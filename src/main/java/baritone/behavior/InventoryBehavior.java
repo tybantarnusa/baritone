@@ -19,6 +19,7 @@ package baritone.behavior;
 
 import baritone.Baritone;
 import baritone.api.event.events.TickEvent;
+import baritone.api.utils.input.Input;
 import baritone.utils.ToolSet;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
@@ -60,12 +61,15 @@ public final class InventoryBehavior extends Behavior {
             // we have a crafting table or a chest or something open
             return;
         }
-        if (firstValidThrowaway() >= 9) { // aka there are none on the hotbar, but there are some in main inventory
-            swapWithHotBar(firstValidThrowaway(), 8);
-        }
-        int pick = bestToolAgainst(Blocks.STONE, PickaxeItem.class);
-        if (pick >= 9) {
-            swapWithHotBar(pick, 0);
+        // Only perform the inventory swap if we're pathing/mining. Otherwise, this will run every frame.
+        if (baritone.getPathingBehavior().isPathing() || baritone.getInputOverrideHandler().isInputForcedDown(Input.CLICK_LEFT)) {
+            if (firstValidThrowaway() >= 9) { // aka there are none on the hotbar, but there are some in main inventory
+                swapWithHotBar(firstValidThrowaway(), 8);
+            }
+            int pick = bestToolAgainst(Blocks.STONE, PickaxeItem.class);
+            if (pick >= 9) {
+                swapWithHotBar(pick, 0);
+            }
         }
     }
 
