@@ -30,6 +30,7 @@ import baritone.gradle.task.CreateDistTask
 import baritone.gradle.task.ProguardTask
 
 def compileType = project.hasProperty("baritone.fabric_build") ? "FABRIC" : project.hasProperty("baritone.forge_build") ? "FORGE" : "OFFICIAL"
+apply plugin: 'java'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
 
