@@ -57,7 +57,7 @@ public class SubstituteSchematic extends AbstractSchematic {
         }
         for (Block substitute : substitutes) {
             if (substitute instanceof AirBlock) {
-                return current.getBlock() instanceof AirBlock ? current : Blocks.AIR.getDefaultState(); // can always "place" air
+                return current.getBlock() instanceof AirBlock ? current : Blocks.AIR.defaultBlockState(); // can always "place" air
             }
             for (BlockState placeable : approxPlaceable) {
                 if (substitute.equals(placeable.getBlock())) {
@@ -65,15 +65,15 @@ public class SubstituteSchematic extends AbstractSchematic {
                 }
             }
         }
-        return substitutes.get(0).getDefaultState();
+        return substitutes.get(0).defaultBlockState();
     }
 
     private BlockState withBlock(BlockState state, Block block) {
         if (blockStateCache.containsKey(state) && blockStateCache.get(state).containsKey(block)) {
             return blockStateCache.get(state).get(block);
         }
-        Collection<Property<?>> properties = state.getBlock().getStateContainer().getProperties();
-        BlockState newState = block.getDefaultState();
+        Collection<Property<?>> properties = state.getBlock().getStateDefinition().getProperties();
+        BlockState newState = block.defaultBlockState();
         for (Property<?> property : properties) {
             try {
                 newState = copySingleProp(state, newState, property);
@@ -84,6 +84,6 @@ public class SubstituteSchematic extends AbstractSchematic {
         return newState;
     }
     private <T extends Comparable<T>> BlockState copySingleProp(BlockState fromState, BlockState toState, Property<T> prop) {
-        return toState.with(prop, fromState.get(prop));
+        return toState.with(prop, prop.value(fromState).value());
     }
 }
