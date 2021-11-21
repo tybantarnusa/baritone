@@ -163,7 +163,7 @@ public class SelCommand extends Command {
             baritone.getBuilderProcess().build("Fill", composite, origin);
             logDirect("Filling now");
         } else if (action == Action.COPY) {
-            BetterBlockPos playerPos = mc.getCameraEntity() != null ? BetterBlockPos.from(mc.getCameraEntity().getPosition()) : ctx.playerFeet();
+            BetterBlockPos playerPos = mc.getCameraEntity() != null ? BetterBlockPos.from(mc.getCameraEntity().blockPosition()) : ctx.playerFeet();
             BetterBlockPos pos = args.hasAny() ? args.getDatatypePost(RelativeBlockPos.INSTANCE, playerPos) : playerPos;
             args.requireMax(0);
             ISelection[] selections = manager.getSelections();
@@ -204,7 +204,7 @@ public class SelCommand extends Command {
             clipboardOffset = origin.subtract(pos);
             logDirect("Selection copied");
         } else if (action == Action.PASTE) {
-            BetterBlockPos playerPos = mc.getCameraEntity() != null ? BetterBlockPos.from(mc.getCameraEntity().getPosition()) : ctx.playerFeet();
+            BetterBlockPos playerPos = mc.getCameraEntity() != null ? BetterBlockPos.from(mc.getCameraEntity().blockPosition()) : ctx.playerFeet();
             BetterBlockPos pos = args.hasAny() ? args.getDatatypePost(RelativeBlockPos.INSTANCE, playerPos) : playerPos;
             args.requireMax(0);
             if (clipboard == null) {

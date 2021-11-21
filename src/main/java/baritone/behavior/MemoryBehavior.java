@@ -69,7 +69,7 @@ public final class MemoryBehavior extends Behavior {
         Component component = new TextComponent("Death position saved.");
         component.getStyle()
                 .withColor(ChatFormatting.WHITE)
-                .setHoverEvent(new HoverEvent(
+                .withHoverEvent(new HoverEvent(
                         HoverEvent.Action.SHOW_TEXT,
                         new TextComponent("Click to goto death")
                 ))
