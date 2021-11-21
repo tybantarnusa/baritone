@@ -73,7 +73,7 @@ public final class MemoryBehavior extends Behavior {
                         HoverEvent.Action.SHOW_TEXT,
                         new TextComponent("Click to goto death")
                 ))
-                .setClickEvent(new ClickEvent(
+                .withClickEvent(new ClickEvent(
                         ClickEvent.Action.RUN_COMMAND,
                         String.format(
                                 "%s%s goto %s @ %d",
