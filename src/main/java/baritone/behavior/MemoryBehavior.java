@@ -68,7 +68,7 @@ public final class MemoryBehavior extends Behavior {
         baritone.getWorldProvider().getCurrentWorld().getWaypoints().addWaypoint(deathWaypoint);
         Component component = new TextComponent("Death position saved.");
         component.getStyle()
-                .setFormatting(ChatFormatting.WHITE)
+                .withColor(ChatFormatting.WHITE)
                 .setHoverEvent(new HoverEvent(
                         HoverEvent.Action.SHOW_TEXT,
                         new TextComponent("Click to goto death")
