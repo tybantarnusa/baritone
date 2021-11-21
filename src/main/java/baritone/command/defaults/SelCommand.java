@@ -39,7 +39,7 @@ import baritone.api.utils.BlockOptionalMetaLookup;
 import baritone.utils.BlockStateInterface;
 import baritone.utils.IRenderer;
 import baritone.utils.schematic.StaticSchematic;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
 import java.util.*;

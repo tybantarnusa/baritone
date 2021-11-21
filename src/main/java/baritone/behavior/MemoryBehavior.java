@@ -24,11 +24,11 @@ import baritone.api.utils.BetterBlockPos;
 import baritone.api.utils.Helper;
 import baritone.cache.ContainerMemory;
 import baritone.utils.BlockStateInterface;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BedBlock;
 
@@ -66,12 +66,12 @@ public final class MemoryBehavior extends Behavior {
     public void onPlayerDeath() {
         Waypoint deathWaypoint = new Waypoint("death", Waypoint.Tag.DEATH, ctx.playerFeet());
         baritone.getWorldProvider().getCurrentWorld().getWaypoints().addWaypoint(deathWaypoint);
-        ITextComponent component = new StringTextComponent("Death position saved.");
+        Component component = new TextComponent("Death position saved.");
         component.getStyle()
-                .setFormatting(TextFormatting.WHITE)
+                .setFormatting(ChatFormatting.WHITE)
                 .setHoverEvent(new HoverEvent(
                         HoverEvent.Action.SHOW_TEXT,
-                        new StringTextComponent("Click to goto death")
+                        new TextComponent("Click to goto death")
                 ))
                 .setClickEvent(new ClickEvent(
                         ClickEvent.Action.RUN_COMMAND,

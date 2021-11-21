@@ -20,9 +20,9 @@ package baritone.utils.schematic;
 import baritone.api.schematic.ISchematic;
 import baritone.api.schematic.MaskSchematic;
 import baritone.api.selection.ISelection;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.stream.Stream;
 
@@ -30,7 +30,7 @@ public class SelectionSchematic extends MaskSchematic {
 
     private final ISelection[] selections;
 
-    public SelectionSchematic(ISchematic schematic, Vector3i origin, ISelection[] selections) {
+    public SelectionSchematic(ISchematic schematic, Vec3i origin, ISelection[] selections) {
         super(schematic);
         this.selections = Stream.of(selections).map(
                 sel -> sel
