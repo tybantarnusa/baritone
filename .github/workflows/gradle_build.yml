@@ -24,7 +24,7 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew build --stacktrace
+      run: ./gradlew build --info
 
     - name: Build (fabric) with Gradle
       run: ./gradlew build -Pbaritone.fabric_build
