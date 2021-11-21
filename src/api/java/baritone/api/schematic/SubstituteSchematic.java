@@ -84,6 +84,6 @@ public class SubstituteSchematic extends AbstractSchematic {
         return newState;
     }
     private <T extends Comparable<T>> BlockState copySingleProp(BlockState fromState, BlockState toState, Property<T> prop) {
-        return toState.with(prop, prop.value(fromState).value());
+        return toState.setValue(prop, fromState.getValue(prop));
     }
 }
