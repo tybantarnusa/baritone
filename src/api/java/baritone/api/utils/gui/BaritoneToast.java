@@ -75,7 +75,7 @@ public class BaritoneToast implements Toast {
         }
     }
 
-    public static void addOrUpdate(ITextComponent title, ITextComponent subtitle) {
+    public static void addOrUpdate(Component title, Component subtitle) {
         addOrUpdate(net.minecraft.client.Minecraft.getInstance().getToasts(), title, subtitle, baritone.api.BaritoneAPI.getSettings().toastTimer.value);
     }
 }
